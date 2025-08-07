@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 데모 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        header, footer {
+            background: #0078d4;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        button {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+        .highlight {
+            color: #0078d4;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HTML5 데모 페이지</h1>
+        <nav>
+            <a href="#intro" style="color:white; margin-right:1rem;">소개</a>
+            <a href="#form" style="color:white;">폼 예제</a>
+        </nav>
+    </header>
+    <main>
+        <section id="intro">
+            <h2>HTML5 주요 태그 소개</h2>
+            <article>
+                <p>
+                    이 페이지는 <span class="highlight">HTML5</span>의 다양한 태그와 CSS, 그리고 간단한 자바스크립트 예제를 포함하고 있습니다.
+                </p>
+                <ul>
+                    <li>&lt;header&gt;, &lt;footer&gt;, &lt;main&gt;, &lt;section&gt;, &lt;article&gt; 등 구조적 태그</li>
+                    <li>&lt;nav&gt; 내비게이션 태그</li>
+                    <li>&lt;form&gt; 폼 태그 및 입력 요소</li>
+                </ul>
+            </article>
+        </section>
+        <section id="form">
+            <h2>폼 예제</h2>
+            <form id="demoForm">
+                <label for="name">이름:</label>
+                <input type="text" id="name" name="name" required>
+                <button type="submit">인사하기</button>
+            </form>
+            <p id="greeting"></p>
+        </section>
+    </main>
+    <footer>
+        &copy; 2025 HTML5 데모 페이지
+    </footer>
+    <script>
+        // 간단한 자바스크립트: 폼 제출 시 인사 메시지 출력
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const greeting = document.getElementById('greeting');
+            if(name) {
+                greeting.textContent = `안녕하세요, ${name}님!`;
+            } else {
+                greeting.textContent = '이름을 입력해주세요.';
+            }
+        });
+    </script>
+</body>
+</html>

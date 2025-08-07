@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>To-do List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-blue-100 to-green-100 min-h-screen">
+    <header class="bg-teal-300 shadow-md py-6 mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight text-center drop-shadow-lg">To-do List</h1>
+    </header>
+    <main class="max-w-md w-full mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        <form id="todoForm" class="flex flex-col sm:flex-row gap-3 mb-6">
+            <input 
+                type="text" 
+                id="todoInput" 
+                placeholder="할 일을 입력하세요"
+                class="flex-1 px-4 py-2 rounded-lg border border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-300 bg-teal-50 text-gray-700 placeholder:text-gray-400 transition"
+                autocomplete="off"
+            >
+            <button 
+                type="submit"
+                class="bg-pink-300 hover:bg-pink-400 text-white font-semibold px-5 py-2 rounded-lg shadow transition"
+            >추가</button>
+        </form>
+        <ul id="todoList" class="space-y-3">
+            <!-- 할 일 목록이 여기에 동적으로 추가됩니다 -->
+        </ul>
+        <p id="emptyMsg" class="text-center text-gray-400 mt-8">할 일이 없습니다.</p>
+    </main>
+    <footer class="text-center text-gray-400 mt-10 py-4">
+        &copy; 2025 To-do List Demo
+    </footer>
+    <script>
+        // 할 일 목록 데이터
+        let todos = [
+            { text: "예시 할 일 1", done: false },
+            { text: "예시 할 일 2", done: false }
+        ];
+
+        const todoList = document.getElementById('todoList');
+        const todoForm = document.getElementById('todoForm');
+        const todoInput = document.getElementById('todoInput');
+        const emptyMsg = document.getElementById('emptyMsg');
+
+        // 할 일 목록 렌더링 함수
+        function renderTodos() {
+            todoList.innerHTML = '';
+            if (todos.length === 0) {
+                emptyMsg.style.display = 'block';
+                return;
+            } else {
+                emptyMsg.style.display = 'none';
+            }
+            todos.forEach((todo, idx) => {
+                const li = document.createElement('li');
+                li.className = `flex items-center justify-between rounded-lg px-4 py-3 shadow-sm transition
+                    ${todo.done ? 'bg-green-100' : idx % 2 === 0 ? 'bg-blue-100' : 'bg-yellow-100'}`;
+                const span = document.createElement('span');
+                span.className = `text-gray-700 font-medium flex-1 ${todo.done ? 'line-through text-gray-400' : ''}`;
+                span.textContent = todo.text;
+
+                const actions = document.createElement('div');
+                actions.className = 'flex gap-2';
+
+                const doneBtn = document.createElement('button');
+                doneBtn.className = `bg-green-200 hover:bg-green-300 text-green-800 px-3 py-1 rounded transition font-semibold`;
+                doneBtn.textContent = todo.done ? '취소' : '완료';
+                doneBtn.onclick = () => {
+                    todos[idx].done = !todos[idx].done;
+                    renderTodos();
+                };
+
+                const delBtn = document.createElement('button');
+                delBtn.className = `bg-red-200 hover:bg-red-300 text-red-800 px-3 py-1 rounded transition font-semibold`;
+                delBtn.textContent = '삭제';
+                delBtn.onclick = () => {
+                    todos.splice(idx, 1);
+                    renderTodos();
+                };
+
+                actions.appendChild(doneBtn);
+                actions.appendChild(delBtn);
+
+                li.appendChild(span);
+                li.appendChild(actions);
+                todoList.appendChild(li);
+            });
+        }
+
+        // 폼 제출 시 할 일 추가
+        todoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const value = todoInput.value.trim();
+            if (value) {
+                todos.push({ text: value, done: false });
+                todoInput.value = '';
+                renderTodos();
+            }
+        });
+
+        // 초기 렌더링
+        renderTodos();
+    </script>
+</body>
+</html>
